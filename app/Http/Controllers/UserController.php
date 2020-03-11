@@ -7,11 +7,12 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        echo 'a123';
+        parent::__construct();
+        $this->loadModel('user');
     }
 
     public function index()
     {
-        echo 'heee';
+
     }
 }

@@ -16,13 +16,8 @@ class Controller
         $path_model = "/app/Models/$name.php";
         if (file_exists($path_model)) {
             $classModel = '\App\Models\\'. $name;
-            if (!isset($classModel)) {
-                $classObject =  new $classModel;
-
-                return $classObject;
-            } else {
-                return false;
-            }
+            $classObject =  new $classModel;
+            return $classObject;
         } else {
             return false;
         }
