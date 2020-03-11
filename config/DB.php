@@ -12,7 +12,7 @@ class DB
     {
         $config_db = Config::newInstance()->getConfig('DB');
         try {
-            $this->conn = new PDO("mysql:host=" . $config_db['server'] . ";port=" . $config_db['port']
+            $this->conn = new \PDO("mysql:host=" . $config_db['server'] . ";port=" . $config_db['port']
                 . ";dbname=" . $config_db['database'] . ";charset=" . $config_db['charset'],$config_db['user']
                 , $config_db['password']);
         }
@@ -25,8 +25,10 @@ class DB
     public static function connect(){
         if (self::$db == null){
             self::$db =  new DB();
+
             return self::$db;
         }else{
+
             return self::$db;
         }
     }
@@ -38,12 +40,14 @@ class DB
     public function executeQuery($sql,$array = array()){
         $stt = $this->conn->prepare($sql);
         $stt->execute($array);
+
         return $stt->fetchAll();
     }
 
     public function executeNonQuery($sql,$array = array()){
         $stt = $this->conn->prepare($sql);
         $result = $stt->execute($array);
+
         return $result;
     }
 

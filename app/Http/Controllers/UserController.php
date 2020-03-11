@@ -8,11 +8,12 @@ class UserController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->loadModel('user');
+        var_dump($this->loadModel('User'));
     }
 
     public function index()
     {
-
+        $result = $this->user->getAll();
+        var_dump($result);
     }
 }

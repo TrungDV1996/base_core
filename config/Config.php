@@ -8,6 +8,7 @@ class Config
     private static $instance = null;
     private function __construct()
     {
+        // van de o file nay
         $this->config = [];
         $this->loadConfig();
     }
