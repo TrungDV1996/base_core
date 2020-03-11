@@ -3,7 +3,8 @@ namespace Core;
 
 use Core\Controller;
 use Core\Model;
-use Core\Errors;
+use Core\Error;
+use App\Helpers\Helper;
 
 class App
 {
@@ -13,10 +14,10 @@ class App
      **/
     public function getUrl()
     {
-        $url = $_GET["url"] ?? null;
+        $url = $_GET['url'] ?? null;
         $url = explode('/', rtrim($url, '/'));
-        $ctrl = !empty($url[0]) ? $url[0] : 'IndexController';
-        $method = !empty($url[1]) ? $url[0] : 'index';
+        $ctrl = !empty($url[0]) ? $url[0] : 'Index';
+        $method = !empty($url[1]) ? $url[1] : 'index';
         $params = isset($url[2]) ? array_slice($url,2) : [];
         App::loadController($ctrl, $method, $params);
     }
@@ -32,22 +33,20 @@ class App
      **/
     public function loadController($nameController, $methodController, $paramsController)
     {
-        var_dump($nameController, $methodController, $paramsController);
+        $nameController = $nameController.'Controller';
         $pathController = 'app/Http/Controllers/' . $nameController . '.php';
         if (file_exists($pathController)) {
-            if (method_exists($nameController, $methodController)) {
-                var_dump(method_exists($nameController, $methodController));
-                call_user_func_array(array($nameController, $methodController), $paramsController);
+            $classController = '\App\Http\Controllers\\'. $nameController;
+            $objectController = new $classController;
+            if (method_exists($objectController, $methodController)) {
+                call_user_func_array(array($objectController, $methodController), $paramsController);
             }else{
-                var_dump($nameController::$methodController);
-//                $msg = "ERROR: Method $methodController not exist in $nameController Controller!!!";
-//                Errors::index($msg);
-                echo 'sai method';
+                $msg = "ERROR: Method $methodController not exist in $nameController!!!";
+                Error::index($msg);
             }
         } else {
-            echo 'sai controller';
-//            $msg = "Controller $nameController not found.";
-//            Errors::index($msg);
+            $msg = "$nameController not found.";
+            Error::index($msg);
         }
     }
 }

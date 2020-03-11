@@ -1,13 +1,14 @@
 <?php
-namespace App\Http\Controller;
+namespace App\Http\Controllers;
 
 use Core\Controller;
+use App\Helpers\Helper;
 
-class IndexController extends Controller {
-
+class IndexController extends Controller
+{
     public function index()
     {
-        return 'aaaa';
+        header('location: ' . Helper::base_url() . 'user');
     }
 
 }

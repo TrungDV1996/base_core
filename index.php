@@ -5,6 +5,7 @@ use Core\App;
 
 class index
 {
+    public $app;
     public function __construct()
     {
         App::getUrl();

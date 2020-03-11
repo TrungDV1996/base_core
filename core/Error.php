@@ -1,12 +1,12 @@
 <?php
 namespace Core;
 
-use http\Message;
-
-class Errors
+class Error
 {
     /**
      * Show message.
+     *
+     * @param $msg
      *
      * @return Message
      *
