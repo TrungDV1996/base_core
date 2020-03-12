@@ -14,23 +14,14 @@ class Model
     public function __construct()
     {
         $this->db = DB::connect();
+
         $this->conn = $this->db->getConnect();
     }
 
-    public function getAll($conditions = [],$limit = [])
+    public function getAll()
     {
-        $sql_condition = '';
-        foreach ($conditions as $condition){
-            $sql_condition .= implode(' ', $condition) . ' ';
-        }
-        $sql_condition = (strlen(trim($sql_condition))) ? ' where ' . $sql_condition : '';
-        $sql_limit = '';
-        if (count($limit) == 2){
-            $sql_limit.= " limit " .implode(',',$limit);
-        }elseif(count($limit) == 1){
-            $sql_limit.= " limit 0," . $limit[0];
-        }
-        $sql = "select * from " . $this->table . ' ' . $sql_condition . $sql_limit;
+        // sai o dau
+        $sql = "select * from " . $this->table;
 
         return $this->db->executeQuery($sql);
     }
