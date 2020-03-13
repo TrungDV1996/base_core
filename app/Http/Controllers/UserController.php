@@ -29,6 +29,9 @@ class UserController extends Controller
     {
         $result = $this->userModel->getById($id);
         $baseUrl = Helper::base_url();
+        if (empty($result)) {
+            return Helper::newError()->index('Id '. $id . ' not found', 404, $baseUrl);
+        }
 
         $this->view->render('user.edit', compact('result', 'baseUrl'));
     }

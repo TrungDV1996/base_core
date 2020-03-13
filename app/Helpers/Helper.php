@@ -1,6 +1,7 @@
 <?php
 namespace App\Helpers;
 
+use Core\Error;
 class Helper
 {
     public function base_url() {
@@ -8,5 +9,10 @@ class Helper
             $_SERVER['HTTP_HOST'] . '/' . explode('/', rtrim($_SERVER['REQUEST_URI'], '/'))[1] . '/';
 
         return $baseUrl;
+    }
+
+    public function newError()
+    {
+        return new Error;
     }
 }

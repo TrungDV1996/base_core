@@ -4,8 +4,8 @@ namespace Core;
 interface ModelInterface{
     public function getAll();
     public function getById($id);
-    public function update($array);
+    public function filter($params);
+    public function insert($params);
+    public function update($params);
     public function delete($id);
-    public function searchByKeyword($fields = array(), $keyword = '');
-    public function count($conditions= array());
 }

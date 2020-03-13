@@ -2,6 +2,7 @@
 namespace Config;
 
 use Config\Config;
+use PDO;
 
 class DB
 {
@@ -12,7 +13,7 @@ class DB
     {
         $config_db = Config::newInstance()->getConfig('DB');
         try {
-            $this->conn = new \PDO("mysql:host=" . $config_db['server'] . ";port=" . $config_db['port']
+            $this->conn = new PDO("mysql:host=" . $config_db['server'] . ";port=" . $config_db['port']
                 . ";dbname=" . $config_db['database'] . ";charset=" . $config_db['charset'],$config_db['user']
                 , $config_db['password']);
         }
@@ -23,10 +24,8 @@ class DB
     }
 
     public static function connect(){
-        if (self::$db == null){
-            self::$db =  new DB();
-
-            return self::$db;
+        if (empty(self::$db)){
+            return new DB;
         }else{
 
             return self::$db;
@@ -37,19 +36,14 @@ class DB
         return $this->conn;
     }
 
-    public function test()
-    {
-        echo 'test';
-    }
-
-    public function executeQuery($sql,$array = array()){
+    public function executeQuery($sql, $array = []){
         $stt = $this->conn->prepare($sql);
         $stt->execute($array);
 
         return $stt->fetchAll();
     }
 
-    public function executeNonQuery($sql,$array = array()){
+    public function executeNonQuery($sql, $array = []){
         $stt = $this->conn->prepare($sql);
         $result = $stt->execute($array);
 

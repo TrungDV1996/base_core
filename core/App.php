@@ -39,14 +39,16 @@ class App
             $classController = '\App\Http\Controllers\\'. $nameController;
             $objectController = new $classController;
             if (method_exists($objectController, $methodController)) {
-                call_user_func_array(array($objectController, $methodController), $paramsController);
+                call_user_func_array([$objectController, $methodController], $paramsController);
             }else{
-                $msg = "ERROR: Method $methodController not exist in $nameController!!!";
-                Error::index($msg);
+                $msg = "ERROR: Method $methodController not found in $nameController!!!";
+                $baseUrl = Helper::base_url();
+                return Helper::newError()->index($msg, 404, $baseUrl);
             }
         } else {
             $msg = "$nameController not found.";
-            Error::index($msg);
+            $baseUrl = Helper::base_url();
+            return Helper::newError()->index($msg, 404, $baseUrl);
         }
     }
 }
