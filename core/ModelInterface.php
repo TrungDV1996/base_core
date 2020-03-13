@@ -2,7 +2,7 @@
 namespace Core;
 
 interface ModelInterface{
-    public function getAll($conditions = [], $limit = []);
+    public function getAll();
     public function getById($id);
     public function update($array);
     public function delete($id);

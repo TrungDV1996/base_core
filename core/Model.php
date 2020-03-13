@@ -15,30 +15,21 @@ class Model implements ModelInterface
     public function __construct()
     {
         $this->db = DB::connect();
+
         $this->conn = $this->db->getConnect();
     }
 
-    public function getAll($conditions = [], $limit = [])
+    public function getAll()
     {
-        $sql_condition = '';
-        foreach ($conditions as $condition){
-            $sql_condition .= implode(' ', $condition) . ' ';
-        }
-        $sql_condition = (strlen(trim($sql_condition))) ? ' where ' . $sql_condition : '';
-        $sql_limit = '';
-        if (count($limit) == 2){
-            $sql_limit.= " limit " .implode(',',$limit);
-        }elseif(count($limit) == 1){
-            $sql_limit.= " limit 0," . $limit[0];
-        }
-        $sql = "select * from " . $this->table . ' ' . $sql_condition . $sql_limit;
+        $sql = "select * from " . $this->table;
 
         return $this->db->executeQuery($sql);
     }
 
     public function getById($id)
     {
-        $sql = "select * from " . $this->table . " where " . $this->primary_key . " = :id";
+        $sql = "select * from " . $this->table . " where " . $this->primaryKey . " = :id";
+
         return $this->db->executeQuery($sql, compact('id'))[0];
     }
 
@@ -49,18 +40,18 @@ class Model implements ModelInterface
 
     public function update($array){
         $fields = array_keys($array);
-        $fields = array_diff($fields, ['id', $this->primary_key]);
+        $fields = array_diff($fields, ['id', $this->primaryKey]);
         $sqlSet = "";
         foreach ($fields as $value){
             $sqlSet = $sqlSet .  $value . " = :" . $value . ",";
         }
         $sqlSet = substr($sqlSet, 0, strlen($sqlSet) -1);
-        $sql = "update " . $this->table . " set " . $sqlSet . " where " . $this->primary_key . " = :".$this->primary_key;
+        $sql = "update " . $this->table . " set " . $sqlSet . " where " . $this->primaryKey . " = :".$this->primaryKey;
         return $this->db->executeNonQuery($sql, $array);
     }
 
     public function delete($id){
-        $sql = "delete from " . $this->table . " where " . $this->primary_key . " = :id";
+        $sql = "delete from " . $this->table . " where " . $this->primaryKey . " = :id";
         return $this->db->executeNonQuery($sql, compact('id'));
     }
 

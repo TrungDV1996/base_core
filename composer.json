@@ -8,5 +8,8 @@
     },
     "config": {
         "optimize-autoloader": true
+    },
+    "require": {
+	"jenssegers/blade": "1.1.0"
     }
 }

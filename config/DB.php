@@ -37,6 +37,11 @@ class DB
         return $this->conn;
     }
 
+    public function test()
+    {
+        echo 'test';
+    }
+
     public function executeQuery($sql,$array = array()){
         $stt = $this->conn->prepare($sql);
         $stt->execute($array);

@@ -8,7 +8,6 @@ class Config
     private static $instance = null;
     private function __construct()
     {
-        // van de o file nay
         $this->config = [];
         $this->loadConfig();
     }
@@ -24,7 +23,7 @@ class Config
     }
 
     public function loadConfig() {
-        foreach (glob($this->dir.'*.json') as $file){
+        foreach (glob($this->dir . '*.json') as $file){
             $name = explode('.', str_replace($this->dir, '', $file));
             $fileContent = file_get_contents($file);
             $data = json_decode($fileContent, true);
