@@ -2,8 +2,9 @@
 namespace Core;
 
 use Config\DB;
+use Core\ModelInterface;
 
-class Model
+class Model implements ModelInterface
 {
     protected $conn = null;
     protected $db = null;
@@ -17,7 +18,7 @@ class Model
         $this->conn = $this->db->getConnect();
     }
 
-    public function getAll($conditions = [],$limit = [])
+    public function getAll($conditions = [], $limit = [])
     {
         $sql_condition = '';
         foreach ($conditions as $condition){
@@ -71,18 +72,6 @@ class Model
         $condition = substr($condition, 0, strlen($condition) -4);
         $sql = "select * from " . $this->table . " where " . $condition;
         return $this->db->executeQuery($sql);
-    }
-
-    public function checkLogin($table, $condition = array()){
-        $key_condition = array_keys($condition);
-        $where = '';
-        foreach ($key_condition as $key){
-            $where.= $key . " = :" . $key . ' and ';
-        }
-        $where = substr($where, 0, strlen($where) -5);
-        $sql = "select * from $table where " . $where;
-        $result = $this->db->executeQuery($sql, $condition);
-        return (count($result) === 1) ? true : false;
     }
 
     public function count($conditions= array()){
